@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="BCHEIKH — Tee-shirts & caleçons">
   <meta property="og:description" content="1 pièce : 7 000 FCFA • 3 pièces : 20 000 FCFA • Pack de 3 caleçons : 7 000 FCFA">
-  <meta property="og:image" content="a_vertical_product_advertisement_flyer_on_a_blac.png">
+  <meta property="og:image" content="carte-visite.png">
 
   <style>
     :root{
@@ -148,12 +148,19 @@
       color:var(--text);
     }
 
+    .visual-card,
+    .business-card,
+    .trust-card,
+    .offer,
+    .contact-panel{
+      box-shadow:var(--shadow);
+    }
+
     .visual-card{
       background:linear-gradient(180deg,#181818,#0f0f0f);
       border:1px solid var(--line);
       border-radius:32px;
       padding:14px;
-      box-shadow:var(--shadow);
     }
 
     .visual-card video{
@@ -218,6 +225,46 @@
       color:var(--muted);
     }
 
+    .business-card{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:24px;
+      align-items:center;
+      border:1px solid var(--line);
+      border-radius:32px;
+      padding:24px;
+      background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+    }
+
+    .business-card img{
+      width:min(100%, 360px);
+      margin:auto;
+      border-radius:26px;
+      border:1px solid var(--line);
+      background:#0a0a0a;
+    }
+
+    .card-copy p{
+      color:var(--muted);
+      margin:0 0 10px;
+    }
+
+    .card-points{
+      margin:18px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+
+    .card-points li{
+      padding:12px 14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#101010;
+      color:var(--text);
+    }
+
     .trust{
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -267,13 +314,14 @@
       font-size:.9rem;
     }
 
-    @media (max-width:800px){
-      .hero{
+    @media (max-width:900px){
+      .hero,
+      .business-card{
         grid-template-columns:1fr;
-        padding-top:38px;
       }
 
-      .hero-copy{text-align:center}
+      .hero{padding-top:38px}
+      .hero-copy,.card-copy{text-align:center}
       .lead{margin-inline:auto}
       .actions{justify-content:center}
       .visual-card{width:min(440px,100%);margin:auto}
@@ -285,7 +333,7 @@
     @media (max-width:420px){
       .wrap{width:min(100% - 22px,1080px)}
       .mini-cta{padding:9px 12px;font-size:.86rem}
-      .offer,.contact-panel{padding:20px}
+      .offer,.contact-panel,.business-card{padding:20px}
     }
   </style>
 </head>
@@ -324,7 +372,7 @@
           controls
           playsinline
           preload="metadata"
-          poster="a_vertical_product_advertisement_flyer_on_a_blac.png"
+          poster="carte-visite.png"
         >
           <source src="BCHEIKH_TIKTOK_CORRIGE_9x16.mp4" type="video/mp4">
           Votre navigateur ne peut pas lire cette vidéo.
@@ -339,7 +387,7 @@
         <article class="offer">
           <small>Tee-shirt / Polo</small>
           <div class="price">7 000</div>
-          <p>FCFA l’unité</p>
+          <p>FCFA l&apos;unité</p>
         </article>
 
         <article class="offer">
@@ -353,6 +401,41 @@
           <div class="price">7 000</div>
           <p>FCFA la poche de 3 pièces</p>
         </article>
+      </div>
+    </section>
+
+    <section class="wrap section" id="carte-visite">
+      <h2 class="section-title">Carte de visite 9/16</h2>
+
+      <div class="business-card">
+        <div class="card-visual">
+          <img src="carte-visite.png" alt="Carte de visite verticale BCHEIKH">
+        </div>
+
+        <div class="card-copy">
+          <p>
+            La carte de visite BCHEIKH est maintenant intégrée à la vitrine.
+            Elle peut être partagée directement sur téléphone, WhatsApp, Statut ou TikTok.
+          </p>
+          <p>
+            Elle reprend les prix clés, les contacts WhatsApp et l'identité visuelle de la marque.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="carte-visite.png" target="_blank" rel="noopener">
+              Ouvrir la carte
+            </a>
+            <a class="btn btn-secondary" href="carte-visite.png" download>
+              Télécharger
+            </a>
+          </div>
+
+          <ul class="card-points">
+            <li>Format vertical 9/16 pour portable et réseaux sociaux</li>
+            <li>Pratique pour montrer rapidement les prix au client</li>
+            <li>Visuel utile pour le partage, l'impression ou la publication</li>
+          </ul>
+        </div>
       </div>
     </section>
 
