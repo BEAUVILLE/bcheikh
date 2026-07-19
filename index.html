@@ -163,12 +163,72 @@
       padding:14px;
     }
 
+    .visual-card{
+      position:relative;
+    }
+
     .visual-card video{
       width:100%;
       aspect-ratio:9/16;
       object-fit:cover;
       border-radius:22px;
       background:#000;
+    }
+
+    .video-play{
+      position:absolute;
+      inset:50% auto auto 50%;
+      transform:translate(-50%,-50%);
+      width:92px;
+      height:92px;
+      border:2px solid rgba(255,255,255,.9);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      z-index:5;
+      color:#111;
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      box-shadow:0 16px 40px rgba(0,0,0,.45);
+      transition:transform .18s ease, opacity .18s ease;
+    }
+
+    .video-play:hover{
+      transform:translate(-50%,-50%) scale(1.06);
+    }
+
+    .video-play::before{
+      content:"";
+      width:0;
+      height:0;
+      margin-left:8px;
+      border-top:18px solid transparent;
+      border-bottom:18px solid transparent;
+      border-left:28px solid #111;
+    }
+
+    .video-play[hidden]{
+      display:none;
+    }
+
+    .video-hint{
+      position:absolute;
+      left:50%;
+      bottom:30px;
+      transform:translateX(-50%);
+      z-index:5;
+      padding:8px 14px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:.88rem;
+      color:#111;
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      pointer-events:none;
+    }
+
+    .video-hint[hidden]{
+      display:none;
     }
 
     .section{padding:42px 0}
@@ -369,6 +429,7 @@
 
       <div class="visual-card">
         <video
+          id="bcheikhVideo"
           controls
           playsinline
           preload="metadata"
@@ -377,6 +438,15 @@
           <source src="BCHEIKH_TIKTOK_CORRIGE_9x16.mp4" type="video/mp4">
           Votre navigateur ne peut pas lire cette vidéo.
         </video>
+
+        <button
+          class="video-play"
+          id="videoPlayButton"
+          type="button"
+          aria-label="Lancer la vidéo"
+        ></button>
+
+        <div class="video-hint" id="videoHint">Appuie pour voir la vidéo</div>
       </div>
     </section>
 
@@ -483,6 +553,40 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const video = document.getElementById("bcheikhVideo");
+    const playButton = document.getElementById("videoPlayButton");
+    const videoHint = document.getElementById("videoHint");
+
+    function showPlayButton() {
+      playButton.hidden = false;
+      videoHint.hidden = false;
+    }
+
+    function hidePlayButton() {
+      playButton.hidden = true;
+      videoHint.hidden = true;
+    }
+
+    async function startVideo() {
+      try {
+        await video.play();
+      } catch (error) {
+        showPlayButton();
+      }
+    }
+
+    playButton.addEventListener("click", startVideo);
+
+    video.addEventListener("click", () => {
+      if (video.paused) {
+        startVideo();
+      }
+    });
+
+    video.addEventListener("play", hidePlayButton);
+    video.addEventListener("pause", showPlayButton);
+    video.addEventListener("ended", showPlayButton);
   </script>
 </body>
 </html>
