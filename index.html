@@ -4,13 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>BCHEIKH — Tee-shirts & caleçons</title>
-  <meta name="description" content="BCHEIKH : tee-shirts et caleçons à prix accessibles. Commande directe par WhatsApp au Sénégal.">
+  <meta name="description" content="BCHEIKH : tee-shirts, polos et caleçons à Saly–Mbour. Prix clairs, contact direct et paiement Wave au 78 652 31 29.">
   <meta name="theme-color" content="#080808">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="BCHEIKH — Tee-shirts & caleçons">
-  <meta property="og:description" content="1 pièce : 7 000 FCFA • 3 pièces : 20 000 FCFA • Pack de 3 caleçons : 7 000 FCFA">
-  <meta property="og:image" content="carte-visite.png">
+  <meta property="og:description" content="BCHEIKH à Saly–Mbour : 1 pièce 7 000 FCFA • 3 pièces 20 000 FCFA • 3 caleçons 7 000 FCFA • Paiement Wave direct.">
+  <meta property="og:image" content="https://bcheikh.digiylyfe.com/carte-visite.png">
+  <meta property="og:url" content="https://bcheikh.digiylyfe.com/">
+  <meta property="og:site_name" content="BCHEIKH">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BCHEIKH — Tee-shirts & caleçons à Saly–Mbour">
+  <meta name="twitter:description" content="Prix clairs, commande directe et paiement Wave au 78 652 31 29.">
+  <meta name="twitter:image" content="https://bcheikh.digiylyfe.com/carte-visite.png">
 
   <style>
     :root{
@@ -146,6 +152,42 @@
       border-color:var(--line);
       background:#121212;
       color:var(--text);
+    }
+
+
+    .info-strip{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .info-pill{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:52px;
+      padding:12px 16px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#101010;
+      color:var(--text);
+      font-weight:850;
+      text-align:center;
+    }
+
+    button.btn{
+      font:inherit;
+      cursor:pointer;
+    }
+
+    .share-status{
+      min-height:24px;
+      margin-top:10px;
+      color:var(--gold-2);
+      font-weight:800;
+      text-align:center;
     }
 
     .visual-card,
@@ -291,7 +333,7 @@
       .lead{margin-inline:auto}
       .actions{justify-content:center}
       .visual-card{width:min(440px,100%);margin:auto}
-      .offers,.trust{grid-template-columns:1fr}
+      .offers,.trust,.info-strip{grid-template-columns:1fr}
       .contact-panel{grid-template-columns:1fr;text-align:center}
       .contact-buttons{min-width:0}
     }
@@ -314,13 +356,20 @@
   <main>
     <section class="wrap hero">
       <div class="hero-copy">
-        <div class="eyebrow">VENTE DIRECTE • SÉNÉGAL</div>
+        <div class="eyebrow">VENTE DIRECTE • SALY–MBOUR</div>
         <h1>Le style simple, au <span>bon prix.</span></h1>
-        <p class="lead">Tee-shirts, polos et caleçons disponibles. Commande directe par WhatsApp, sans intermédiaire.</p>
+        <p class="lead">Tee-shirts, polos et caleçons disponibles à Saly et Mbour. Commande directe, sans intermédiaire, avec paiement Wave au 78 652 31 29.</p>
         <div class="actions">
           <a class="btn btn-primary" href="https://wa.me/221786523129?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20commander.">WhatsApp 78 652 31 29</a>
           <a class="btn btn-secondary" href="tel:+221771742749">Appeler le 77 174 27 49</a>
+          <button class="btn btn-secondary" id="shareShopButton" type="button">Partager la boutique</button>
+          <button class="btn btn-secondary" id="copyShopLinkButton" type="button">Copier le lien</button>
         </div>
+        <div class="info-strip" aria-label="Informations de vente">
+          <div class="info-pill">📍 Zone : Saly–Mbour</div>
+          <div class="info-pill">💳 Wave : 78 652 31 29</div>
+        </div>
+        <div class="share-status" id="shareStatus" role="status" aria-live="polite"></div>
       </div>
 
       <div>
@@ -353,7 +402,7 @@
         <div class="card-visual"><img src="carte-visite.png" alt="Carte de visite verticale BCHEIKH"></div>
         <div class="card-copy">
           <p>La carte de visite BCHEIKH peut être partagée sur téléphone, WhatsApp, Statut ou TikTok.</p>
-          <p>Elle reprend les prix clés, les contacts WhatsApp et l’identité visuelle de la marque.</p>
+          <p>Elle reprend les prix clés, la zone Saly–Mbour, les contacts directs et l’identité visuelle de la marque.</p>
           <div class="actions">
             <a class="btn btn-primary" href="carte-visite.png" target="_blank" rel="noopener">Ouvrir la carte</a>
             <a class="btn btn-secondary" href="carte-visite.png" download>Télécharger</a>
@@ -371,26 +420,79 @@
       <h2 class="section-title">Pourquoi commander chez BCHEIKH ?</h2>
       <div class="trust">
         <div class="trust-card"><strong>Prix clairs</strong>Pas de mauvaise surprise au moment de commander.</div>
-        <div class="trust-card"><strong>Commande directe</strong>Échange simple et rapide avec le vendeur.</div>
-        <div class="trust-card"><strong>Stock visible</strong>Les produits présentés dans la vidéo sont disponibles selon le stock.</div>
+        <div class="trust-card"><strong>Commande directe</strong>Échange simple et rapide avec le vendeur à Saly–Mbour.</div>
+        <div class="trust-card"><strong>Paiement Wave direct</strong>Le paiement se fait directement au 78 652 31 29.</div>
       </div>
     </section>
 
     <section class="wrap section" id="contact">
       <div class="contact-panel">
-        <div><h2>Prêt à commander ?</h2><p>Écris directement sur WhatsApp ou appelle pour vérifier les tailles et les couleurs disponibles.</p></div>
+        <div><h2>Prêt à commander ?</h2><p>Écris directement sur WhatsApp ou appelle pour vérifier les tailles et les couleurs disponibles à Saly–Mbour. Paiement Wave direct au 78 652 31 29.</p></div>
         <div class="contact-buttons">
           <a class="btn btn-primary" href="https://wa.me/221786523129?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20conna%C3%AEtre%20les%20tailles%20et%20couleurs%20disponibles.">WhatsApp principal</a>
           <a class="btn btn-secondary" href="https://wa.me/221771742749?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20commander.">WhatsApp secondaire</a>
+          <button class="btn btn-secondary" id="copyWaveButton" type="button">Copier le numéro Wave</button>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© <span id="year"></span> BCHEIKH — Vente de tee-shirts et caleçons.</footer>
+  <footer>© <span id="year"></span> BCHEIKH — Vente directe de tee-shirts, polos et caleçons à Saly–Mbour.</footer>
 
   <script>
     document.getElementById("year").textContent=new Date().getFullYear();
+
+    const shopUrl="https://bcheikh.digiylyfe.com/";
+    const waveNumber="786523129";
+    const shareShopButton=document.getElementById("shareShopButton");
+    const copyShopLinkButton=document.getElementById("copyShopLinkButton");
+    const copyWaveButton=document.getElementById("copyWaveButton");
+    const shareStatus=document.getElementById("shareStatus");
+
+    function setShareStatus(message){
+      shareStatus.textContent=message;
+      window.clearTimeout(setShareStatus.timer);
+      setShareStatus.timer=window.setTimeout(()=>{shareStatus.textContent=""},3200);
+    }
+
+    async function copyText(value,successMessage){
+      try{
+        await navigator.clipboard.writeText(value);
+        setShareStatus(successMessage);
+      }catch(error){
+        const temp=document.createElement("textarea");
+        temp.value=value;
+        temp.setAttribute("readonly","");
+        temp.style.position="fixed";
+        temp.style.opacity="0";
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+        setShareStatus(successMessage);
+      }
+    }
+
+    shareShopButton.addEventListener("click",async()=>{
+      const shareData={
+        title:"BCHEIKH — Saly–Mbour",
+        text:"BCHEIKH : tee-shirts, polos et caleçons. Prix clairs, commande directe et paiement Wave.",
+        url:shopUrl
+      };
+      if(navigator.share){
+        try{
+          await navigator.share(shareData);
+          setShareStatus("Boutique partagée.");
+        }catch(error){
+          if(error.name!=="AbortError") copyText(shopUrl,"Lien copié.");
+        }
+      }else{
+        copyText(shopUrl,"Lien copié.");
+      }
+    });
+
+    copyShopLinkButton.addEventListener("click",()=>copyText(shopUrl,"Lien de la boutique copié."));
+    copyWaveButton.addEventListener("click",()=>copyText(waveNumber,"Numéro Wave copié : 78 652 31 29."));
     const video=document.getElementById("bcheikhVideo");
     const playButton=document.getElementById("videoPlayButton");
     const videoHint=document.getElementById("videoHint");
@@ -405,3 +507,4 @@
   </script>
 </body>
 </html>
+
