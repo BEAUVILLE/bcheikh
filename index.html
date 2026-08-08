@@ -311,14 +311,20 @@
       display:block;
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;
     }
 
     .real-product-photo img.product-rotated{
+      position:absolute;
+      z-index:1;
+      top:50%;
+      left:50%;
       width:125%;
       height:auto;
       max-width:none;
-      transform:rotate(90deg);
+      transform:translate(-50%,-50%) rotate(90deg);
+      transform-origin:center;
+      backface-visibility:hidden;
     }
 
     .real-product-badge{
@@ -479,7 +485,7 @@
       <div class="real-products" aria-label="Galerie des polos BCHEIKH">
         <article class="real-product">
           <div class="real-product-photo">
-            <img src="assets/produits/bcheikh-polo-plie-fond-charbon.jpg" alt="Polo blanc plié avec col à motif graphique noir">
+            <img src="assets/produits/bcheikh-polo-plie-fond-charbon.jpg?v=20260808-3" alt="Polo blanc plié avec col à motif graphique noir" width="1528" height="1910" loading="lazy" decoding="async">
             <span class="real-product-badge">Photo réelle</span>
           </div>
           <div class="real-product-body">
@@ -492,7 +498,7 @@
 
         <article class="real-product">
           <div class="real-product-photo">
-            <img class="product-rotated" src="assets/produits/bcheikh-polo-zip-fond-charbon.jpg" alt="Polo blanc déplié avec col zippé">
+            <img class="product-rotated" src="assets/produits/bcheikh-polo-zip-fond-charbon.jpg?v=20260808-3" alt="Polo blanc déplié avec col zippé" width="2047" height="1535" loading="lazy" decoding="async">
             <span class="real-product-badge">Photo réelle</span>
           </div>
           <div class="real-product-body">
