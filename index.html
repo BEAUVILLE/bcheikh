@@ -268,6 +268,81 @@
       letter-spacing:-.035em;
     }
 
+    .section-intro{
+      max-width:700px;
+      margin:-10px 0 22px;
+      color:var(--muted);
+    }
+
+    .real-products{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
+
+    .real-product{
+      min-width:0;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+      box-shadow:var(--shadow);
+    }
+
+    .real-product-photo{
+      position:relative;
+      display:grid;
+      place-items:center;
+      aspect-ratio:4/5;
+      overflow:hidden;
+      background:#0b0b0d;
+    }
+
+    .real-product-photo::after{
+      content:"";
+      position:absolute;
+      inset:auto 0 0;
+      height:28%;
+      pointer-events:none;
+      background:linear-gradient(transparent,rgba(0,0,0,.42));
+    }
+
+    .real-product-photo img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .real-product-photo img.product-rotated{
+      width:125%;
+      height:auto;
+      max-width:none;
+      transform:rotate(90deg);
+    }
+
+    .real-product-badge{
+      position:absolute;
+      z-index:2;
+      left:16px;
+      bottom:16px;
+      padding:8px 12px;
+      border:1px solid rgba(248,213,120,.55);
+      border-radius:999px;
+      color:#111;
+      background:linear-gradient(135deg,var(--gold-2),var(--gold));
+      font-size:.78rem;
+      font-weight:950;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .real-product-body{padding:20px}
+    .real-product-body h3{margin:0 0 8px;font-size:1.28rem}
+    .real-product-body p{margin:0;color:var(--muted)}
+    .real-product-price{margin-top:14px;color:var(--gold-2);font-size:1.35rem;font-weight:950}
+    .real-product-body .btn{width:100%;margin-top:16px}
+
     .offers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .offer{
       position:relative;
@@ -334,6 +409,17 @@
       .actions{justify-content:center}
       .visual-card{width:min(440px,100%);margin:auto}
       .offers,.trust,.info-strip{grid-template-columns:1fr}
+      .real-products{
+        grid-template-columns:none;
+        grid-auto-flow:column;
+        grid-auto-columns:minmax(260px,84vw);
+        overflow-x:auto;
+        overscroll-behavior-inline:contain;
+        scroll-snap-type:x mandatory;
+        padding:2px 2px 12px;
+        scrollbar-color:var(--gold) #181818;
+      }
+      .real-product{scroll-snap-align:start}
       .contact-panel{grid-template-columns:1fr;text-align:center}
       .contact-buttons{min-width:0}
     }
@@ -384,6 +470,38 @@
         <div class="actions" style="justify-content:center;margin-top:14px;">
           <a class="btn btn-secondary" href="BCHEIKH_TIKTOK_CARTE_PRIX_FIN_FIXE_9x16.mp4?v=20260720-2" target="_blank" rel="noopener">Ouvrir directement la vidéo</a>
         </div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="produits-reels">
+      <h2 class="section-title">Les polos BCHEIKH en photo</h2>
+      <p class="section-intro">Photos réelles améliorées pour la vitrine. Pour les tailles et les couleurs disponibles, confirme directement sur WhatsApp.</p>
+      <div class="real-products" aria-label="Galerie des polos BCHEIKH">
+        <article class="real-product">
+          <div class="real-product-photo">
+            <img src="assets/produits/bcheikh-polo-plie-fond-charbon.jpg" alt="Polo blanc plié avec col à motif graphique noir">
+            <span class="real-product-badge">Photo réelle</span>
+          </div>
+          <div class="real-product-body">
+            <h3>Polo blanc, col graphique</h3>
+            <p>Texture visible et finition du col mise en valeur sur fond charbon.</p>
+            <div class="real-product-price">7 000 FCFA l’unité</div>
+            <a class="btn btn-primary" href="https://wa.me/221786523129?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20commander%20le%20polo%20blanc%20avec%20col%20graphique.%20Quelles%20tailles%20sont%20disponibles%20%3F">Commander sur WhatsApp</a>
+          </div>
+        </article>
+
+        <article class="real-product">
+          <div class="real-product-photo">
+            <img class="product-rotated" src="assets/produits/bcheikh-polo-zip-fond-charbon.jpg" alt="Polo blanc déplié avec col zippé">
+            <span class="real-product-badge">Photo réelle</span>
+          </div>
+          <div class="real-product-body">
+            <h3>Polo blanc, col zippé</h3>
+            <p>Vue complète du vêtement et de ses finitions sur fond charbon.</p>
+            <div class="real-product-price">7 000 FCFA l’unité</div>
+            <a class="btn btn-primary" href="https://wa.me/221786523129?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20commander%20le%20polo%20blanc%20avec%20col%20zipp%C3%A9.%20Quelles%20tailles%20sont%20disponibles%20%3F">Commander sur WhatsApp</a>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -507,4 +625,3 @@
   </script>
 </body>
 </html>
-
