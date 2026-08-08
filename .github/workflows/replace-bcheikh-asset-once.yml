@@ -1,0 +1,31 @@
+name: Remplacer le visuel BCHEIKH une fois
+
+on:
+  push:
+    paths:
+      - '.github/workflows/replace-bcheikh-asset-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Télécharger et vérifier le PNG
+        run: |
+          curl -L --fail --silent --show-error --retry 3 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b295d2ba-8b11-41cb-8e78-0fe87f5aaaa2' \
+            -o carte-visite.png
+          test "$(xxd -p -l 8 carte-visite.png)" = "89504e470d0a1a0a"
+          file carte-visite.png | grep -q 'PNG image data'
+
+      - name: Publier la nouvelle carte
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- carte-visite.png
+          git commit -m "Remplacer la carte BCHEIKH par la version optimisée [skip ci]"
+          git push
