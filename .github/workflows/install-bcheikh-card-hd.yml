@@ -16,13 +16,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build HD card
+      - name: Build and verify HD card
         shell: bash
         run: |
           cat .tmp/bcheikh-card/part*.b64 | base64 -d > carte-visite.webp
           BYTES=$(stat -c%s carte-visite.webp)
           echo "BCHEIKH card size: ${BYTES} bytes"
-          test "$BYTES" -gt 150000
+          test "$BYTES" -gt 90000
+          echo "c6615a39399f29b2d13f439e3677f3d9f00e7871a321267459b480562c580eaf  carte-visite.webp" | sha256sum -c -
 
       - name: Enlarge card and add direct sharing
         shell: bash
@@ -32,24 +33,41 @@ jobs:
           p=Path('index.html')
           h=p.read_text(encoding='utf-8')
 
-          h=h.replace(
-            '.business-card{\n      display:grid;\n      grid-template-columns:.92fr 1.08fr;\n      gap:24px;',
-            '.business-card{\n      display:grid;\n      grid-template-columns:1.12fr .88fr;\n      gap:28px;'
-          )
-          h=h.replace(
-            '.business-card img{width:min(100%,360px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a}',
-            '.card-visual{display:flex;justify-content:center;align-items:center}.business-card img{width:min(100%,560px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a;box-shadow:0 22px 64px rgba(0,0,0,.42)}'
-          )
-          h=h.replace(
-            '.hero,.business-card{grid-template-columns:1fr}\n      .hero{padding-top:38px}',
-            '.hero,.business-card{grid-template-columns:1fr}\n      .business-card img{width:min(100%,520px)}\n      .hero{padding-top:38px}'
-          )
+          old_grid='''.business-card{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:24px;'''
+          new_grid='''.business-card{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:28px;'''
+          if old_grid not in h:
+              raise SystemExit('Business-card grid not found')
+          h=h.replace(old_grid,new_grid,1)
 
-          old='''<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>\n<a class="btn btn-secondary" data-i18n="download" download="" href="carte-visite.webp">Télécharger</a>'''
-          new='''<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>\n<button class="btn btn-secondary" id="shareCardButton" type="button">Partager la carte</button>\n<a class="btn btn-secondary" data-i18n="download" download="BCHEIKH-carte-visite.webp" href="carte-visite.webp">Télécharger</a>'''
-          if old not in h:
+          old_img='''.business-card img{width:min(100%,360px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a}'''
+          new_img='''.card-visual{display:flex;justify-content:center;align-items:center}.business-card img{width:min(100%,560px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a;box-shadow:0 22px 64px rgba(0,0,0,.42)}'''
+          if old_img not in h:
+              raise SystemExit('Business-card image CSS not found')
+          h=h.replace(old_img,new_img,1)
+
+          old_mobile='''.hero,.business-card{grid-template-columns:1fr}
+      .hero{padding-top:38px}'''
+          new_mobile='''.hero,.business-card{grid-template-columns:1fr}
+      .business-card img{width:min(100%,520px)}
+      .hero{padding-top:38px}'''
+          if old_mobile not in h:
+              raise SystemExit('Mobile business-card CSS not found')
+          h=h.replace(old_mobile,new_mobile,1)
+
+          old_actions='''<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>
+<a class="btn btn-secondary" data-i18n="download" download="" href="carte-visite.webp">Télécharger</a>'''
+          new_actions='''<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>
+<button class="btn btn-secondary" id="shareCardButton" type="button">Partager la carte</button>
+<a class="btn btn-secondary" data-i18n="download" download="BCHEIKH-carte-visite.webp" href="carte-visite.webp">Télécharger</a>'''
+          if old_actions not in h:
               raise SystemExit('Card action block not found')
-          h=h.replace(old,new,1)
+          h=h.replace(old_actions,new_actions,1)
 
           marker='''    shareShopButton.addEventListener("click",async()=>{'''
           share_js=r'''
@@ -60,7 +78,9 @@ jobs:
       const v=(document.getElementById("languageSelect")?.value||document.documentElement.lang||"fr").slice(0,2).toLowerCase();
       return cardShareLabels[v]?v:"fr";
     }
-    function syncShareCardLabel(){if(shareCardButton)shareCardButton.textContent=cardShareLabels[currentCardLang()];}
+    function syncShareCardLabel(){
+      if(shareCardButton) shareCardButton.textContent=cardShareLabels[currentCardLang()];
+    }
     syncShareCardLabel();
     document.getElementById("languageSelect")?.addEventListener("change",()=>setTimeout(syncShareCardLabel,0));
     shareCardButton?.addEventListener("click",async()=>{
@@ -68,7 +88,7 @@ jobs:
       const cardUrl=new URL("carte-visite.webp",location.href).href;
       try{
         const response=await fetch(cardUrl,{cache:"no-store"});
-        if(!response.ok)throw new Error("card-fetch");
+        if(!response.ok) throw new Error("card-fetch");
         const blob=await response.blob();
         const file=new File([blob],"BCHEIKH-carte-visite.webp",{type:blob.type||"image/webp"});
         if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
@@ -76,13 +96,13 @@ jobs:
         }else if(navigator.share){
           await navigator.share({title:"BCHEIKH",text:translations[lang]?.shareText||translations.fr.shareText,url:cardUrl});
         }else{
-          await navigator.clipboard.writeText(cardUrl);
+          await copyText(cardUrl,cardShareStatus[lang]);
+          return;
         }
-        shareStatus.textContent=cardShareStatus[lang];
-      }catch(err){
-        if(err && err.name==="AbortError")return;
-        try{await navigator.clipboard.writeText(cardUrl);shareStatus.textContent=cardShareStatus[lang];}
-        catch(_){location.href=cardUrl;}
+        setShareStatus(cardShareStatus[lang]);
+      }catch(error){
+        if(error && error.name==="AbortError") return;
+        copyText(cardUrl,cardShareStatus[lang]);
       }
     });
 
@@ -99,8 +119,11 @@ jobs:
         run: |
           grep -q 'id="shareCardButton"' index.html
           grep -q 'width:min(100%,560px)' index.html
+          grep -q 'width:min(100%,520px)' index.html
+          grep -q 'navigator.canShare' index.html
           grep -q 'carte-visite.webp' index.html
-          test $(stat -c%s carte-visite.webp) -gt 150000
+          test $(stat -c%s carte-visite.webp) -gt 90000
+          echo "c6615a39399f29b2d13f439e3677f3d9f00e7871a321267459b480562c580eaf  carte-visite.webp" | sha256sum -c -
 
       - name: Commit final BCHEIKH card
         shell: bash
@@ -110,4 +133,5 @@ jobs:
           git add index.html carte-visite.webp
           git rm -r .tmp/bcheikh-card .github/workflows/install-bcheikh-card-hd.yml
           git commit -m "Install shareable HD BCHEIKH business card"
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main
