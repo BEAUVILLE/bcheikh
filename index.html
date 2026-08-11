@@ -373,15 +373,15 @@
 
     .business-card{
       display:grid;
-      grid-template-columns:.92fr 1.08fr;
-      gap:24px;
+      grid-template-columns:1.12fr .88fr;
+      gap:28px;
       align-items:center;
       border:1px solid var(--line);
       border-radius:32px;
       padding:24px;
       background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
     }
-    .business-card img{width:min(100%,360px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a}
+    .card-visual{display:flex;justify-content:center;align-items:center}.business-card img{width:min(100%,560px);margin:auto;border-radius:26px;border:1px solid var(--line);background:#0a0a0a;box-shadow:0 22px 64px rgba(0,0,0,.42)}
     .card-copy p{color:var(--muted);margin:0 0 10px}
     .card-points{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px}
     .card-points li{padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:#101010;color:var(--text)}
@@ -408,6 +408,7 @@
 
     @media (max-width:900px){
       .hero,.business-card{grid-template-columns:1fr}
+      .business-card img{width:min(100%,520px)}
       .hero{padding-top:38px}
       .hero-copy,.card-copy{text-align:center}
       .lead{margin-inline:auto}
@@ -588,7 +589,8 @@
 <p data-i18n="cardCopy2">Elle reprend les prix clés, la zone Saly–Mbour, les contacts directs et l’identité visuelle de la marque.</p>
 <div class="actions">
 <a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>
-<a class="btn btn-secondary" data-i18n="download" download="" href="carte-visite.webp">Télécharger</a>
+<button class="btn btn-secondary" id="shareCardButton" type="button">Partager la carte</button>
+<a class="btn btn-secondary" data-i18n="download" download="BCHEIKH-carte-visite.webp" href="carte-visite.webp">Télécharger</a>
 </div>
 <ul class="card-points">
 <li data-i18n="cardPoint1">Format vertical 9/16 pour portable et réseaux sociaux</li>
@@ -724,6 +726,42 @@
     }
 
     languageSelect.addEventListener("change",()=>applyLanguage(languageSelect.value));
+
+
+    const shareCardButton=document.getElementById("shareCardButton");
+    const cardShareLabels={fr:"Partager la carte",en:"Share the card",es:"Compartir la tarjeta",pt:"Partilhar o cartão",it:"Condividi la scheda",de:"Visitenkarte teilen",nl:"Deel het kaartje",ar:"مشاركة البطاقة"};
+    const cardShareStatus={fr:"Carte prête à être partagée.",en:"Card ready to share.",es:"Tarjeta lista para compartir.",pt:"Cartão pronto para partilhar.",it:"Scheda pronta da condividere.",de:"Visitenkarte bereit zum Teilen.",nl:"Kaart klaar om te delen.",ar:"البطاقة جاهزة للمشاركة."};
+    function currentCardLang(){
+      const v=(document.getElementById("languageSelect")?.value||document.documentElement.lang||"fr").slice(0,2).toLowerCase();
+      return cardShareLabels[v]?v:"fr";
+    }
+    function syncShareCardLabel(){
+      if(shareCardButton) shareCardButton.textContent=cardShareLabels[currentCardLang()];
+    }
+    syncShareCardLabel();
+    document.getElementById("languageSelect")?.addEventListener("change",()=>setTimeout(syncShareCardLabel,0));
+    shareCardButton?.addEventListener("click",async()=>{
+      const lang=currentCardLang();
+      const cardUrl=new URL("carte-visite.webp",location.href).href;
+      try{
+        const response=await fetch(cardUrl,{cache:"no-store"});
+        if(!response.ok) throw new Error("card-fetch");
+        const blob=await response.blob();
+        const file=new File([blob],"BCHEIKH-carte-visite.webp",{type:blob.type||"image/webp"});
+        if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],title:"BCHEIKH",text:translations[lang]?.shareText||translations.fr.shareText});
+        }else if(navigator.share){
+          await navigator.share({title:"BCHEIKH",text:translations[lang]?.shareText||translations.fr.shareText,url:cardUrl});
+        }else{
+          await copyText(cardUrl,cardShareStatus[lang]);
+          return;
+        }
+        setShareStatus(cardShareStatus[lang]);
+      }catch(error){
+        if(error && error.name==="AbortError") return;
+        copyText(cardUrl,cardShareStatus[lang]);
+      }
+    });
 
     shareShopButton.addEventListener("click",async()=>{
       const shareData={
