@@ -1,4 +1,4 @@
-name: Sync BCHEIKH business card
+name: Finalize BCHEIKH business card
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  sync-card:
+  finalize-card:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,21 +17,25 @@ jobs:
         with:
           persist-credentials: true
 
-      - name: Download official MARKET copy
+      - name: Ensure official card and wire the storefront
         run: |
           curl -fL --retry 3 \
             'https://raw.githubusercontent.com/BEAUVILLE/digiy-market/main/assets/partners/bcheikh-card.webp' \
             -o carte-visite.webp
           test -s carte-visite.webp
+          sed -i 's/carte-visite\.png/carte-visite.webp/g' index.html
+          rm -f carte-visite.png
+          git rm -f .github/workflows/sync-bcheikh-card.yml
 
-      - name: Commit card into BCHEIKH
+      - name: Commit final BCHEIKH card wiring
         run: |
           git config user.name 'DIGIY LYFE'
           git config user.email 'baptistejb24@gmail.com'
-          git add carte-visite.webp
+          git add index.html carte-visite.webp
+          git add -u
           if git diff --cached --quiet; then
-            echo 'Card already current'
+            echo 'BCHEIKH card already finalized'
           else
-            git commit -m 'Sync official BCHEIKH business card'
+            git commit -m 'Wire official BCHEIKH business card'
             git push
           fi
