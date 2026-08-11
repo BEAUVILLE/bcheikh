@@ -1,0 +1,37 @@
+name: Sync BCHEIKH business card
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-bcheikh-card.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-card:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Download official MARKET copy
+        run: |
+          curl -fL --retry 3 \
+            'https://raw.githubusercontent.com/BEAUVILLE/digiy-market/main/assets/partners/bcheikh-card.webp' \
+            -o carte-visite.webp
+          test -s carte-visite.webp
+
+      - name: Commit card into BCHEIKH
+        run: |
+          git config user.name 'DIGIY LYFE'
+          git config user.email 'baptistejb24@gmail.com'
+          git add carte-visite.webp
+          if git diff --cached --quiet; then
+            echo 'Card already current'
+          else
+            git commit -m 'Sync official BCHEIKH business card'
+            git push
+          fi
