@@ -1,0 +1,43 @@
+name: Install BCHEIKH living card
+
+on:
+  push:
+    paths:
+      - '.github/scripts/install_bcheikh_living_card.py'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install living card
+        run: python3 .github/scripts/install_bcheikh_living_card.py
+
+      - name: Verify living card
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f carte/index.html
+          grep -q 'https://bcheikh.digiylyfe.com/carte/' index.html
+          grep -q 'id="contactBtn"' carte/index.html
+          grep -q 'tel:+221771742749' carte/index.html
+          grep -q 'wa.me/221786523129' carte/index.html
+          ! grep -q 'navigator.canShare({files:\[file\]})' index.html
+
+      - name: Commit final BCHEIKH living card
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "DIGIYLYFE Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html carte/index.html
+          git rm -f .github/scripts/install_bcheikh_living_card.py .github/workflows/install-bcheikh-living-card.yml
+          git commit -m "Install BCHEIKH living business card"
+          git pull --rebase origin main
+          git push origin HEAD:main
