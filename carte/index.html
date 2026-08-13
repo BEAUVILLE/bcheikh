@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BCHEIKH — Carte de visite interactive</title>
+<meta name="description" content="Carte de visite interactive BCHEIKH : WhatsApp, appel, boutique, ajout aux contacts et partage direct.">
+<meta name="theme-color" content="#080808">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://bcheikh.digiylyfe.com/carte/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bcheikh.digiylyfe.com/carte/">
+<meta property="og:title" content="BCHEIKH · Saly–Mbour">
+<meta property="og:description" content="Tee-shirts · Prix clairs · Commande directe · WhatsApp">
+<meta property="og:image" content="https://bcheikh.digiylyfe.com/carte-visite.webp">
+<meta property="og:image:alt" content="Carte de visite BCHEIKH">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BCHEIKH · Saly–Mbour">
+<meta name="twitter:description" content="Tee-shirts · Prix clairs · Commande directe · WhatsApp">
+<meta name="twitter:image" content="https://bcheikh.digiylyfe.com/carte-visite.webp">
+<style>
+:root{--bg:#080808;--gold:#d7ae4b;--gold2:#f1d889;--text:#f7f2e8;--line:rgba(215,174,75,.28);--wa:#25D366}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100svh;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(850px 420px at 10% -5%,rgba(215,174,75,.22),transparent 62%),linear-gradient(180deg,#181818 0,#0b0b0b 48%,#030303 100%)}
+a{color:inherit;text-decoration:none} button{font:inherit;color:inherit} a,button{-webkit-tap-highlight-color:transparent}
+.wrap{width:min(100%,560px);margin:auto;padding:12px 11px 34px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.home{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:8px 12px;border-radius:999px;border:1px solid rgba(215,174,75,.5);background:rgba(255,255,255,.05);font-size:11px;font-weight:950}
+.langs{display:flex;gap:5px;overflow:auto;scrollbar-width:none}.langs::-webkit-scrollbar{display:none}
+.lang{min-width:34px;height:34px;padding:0 7px;border-radius:999px;border:1px solid rgba(215,174,75,.36);background:rgba(255,255,255,.05);font-size:9px;font-weight:1000;cursor:pointer}
+.lang.active{background:linear-gradient(135deg,#fff3c4,var(--gold));color:#17130a}
+.card{overflow:hidden;border-radius:30px;border:1px solid rgba(215,174,75,.65);background:rgba(255,255,255,.045);box-shadow:0 24px 65px rgba(0,0,0,.34)}
+.visual{display:block;background:#111}.visual img{display:block;width:100%;height:auto}
+.body{padding:17px}.eyebrow{font-size:10px;font-weight:1000;letter-spacing:.1em;text-transform:uppercase;color:#f7d980}
+h1{margin:7px 0 0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(31px,8vw,44px);line-height:.98}
+.lead{margin:10px 0 0;color:rgba(247,242,232,.82);font-size:13px;line-height:1.45;font-weight:800}
+.doctrine{margin-top:12px;padding:10px 12px;border-radius:16px;background:rgba(215,174,75,.10);border:1px solid rgba(215,174,75,.34);text-align:center;font-size:11px;font-weight:950}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:15px}.action{min-height:58px;padding:11px 12px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;font-size:12px;line-height:1.15;font-weight:950;cursor:pointer}
+.action.whatsapp{background:linear-gradient(135deg,#dcfce7,var(--wa),#128C7E);color:#04120d;border-color:rgba(37,211,102,.82)}
+.action.primary{background:linear-gradient(135deg,#fff3c4,var(--gold));color:#17130a;border-color:rgba(215,174,75,.86)}.action.wide{grid-column:1/-1}
+.phonebox{margin-top:10px;padding:10px 11px;border-radius:16px;border:1px solid rgba(215,174,75,.30);background:rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-size:11px;font-weight:900;text-align:center}
+#copyPhone{border:1px solid rgba(215,174,75,.48);background:rgba(215,174,75,.12);border-radius:999px;padding:7px 10px;cursor:pointer}#copyPhone.done{background:var(--wa);color:#04120d}
+.status{display:none;margin-top:9px;padding:9px 11px;border-radius:14px;background:rgba(37,211,102,.15);font-size:11px;text-align:center;font-weight:900}.status.show{display:block}
+.note{margin:13px 1px 0;color:rgba(247,242,232,.66);font-size:10.5px;line-height:1.4;text-align:center;font-weight:800}
+@media(max-width:390px){.actions{grid-template-columns:1fr}.action.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <a class="home" href="https://bcheikh.digiylyfe.com/">← <span data-i18n="back">BCHEIKH</span></a>
+    <div class="langs" aria-label="Langues">
+      <button class="lang active" type="button" data-lang="fr">FR</button>
+      <button class="lang" type="button" data-lang="en">EN</button>
+      <button class="lang" type="button" data-lang="es">ES</button>
+      <button class="lang" type="button" data-lang="pt">PT</button>
+      <button class="lang" type="button" data-lang="it">IT</button>
+      <button class="lang" type="button" data-lang="de">DE</button>
+      <button class="lang" type="button" data-lang="nl">NL</button>
+      <button class="lang" type="button" data-lang="ar">AR</button>
+    </div>
+  </div>
+  <section class="card">
+    <a class="visual" href="https://bcheikh.digiylyfe.com/" aria-label="Ouvrir BCHEIKH">
+      <img src="https://bcheikh.digiylyfe.com/carte-visite.webp" alt="Carte officielle BCHEIKH">
+    </a>
+    <div class="body">
+      <div class="eyebrow" data-i18n="eyebrow">CARTE DE VISITE INTERACTIVE</div>
+      <h1>BCHEIKH</h1>
+      <p class="lead" data-i18n="lead">Saly–Mbour · tee-shirts · prix clairs · contact direct. Commande WhatsApp et appel immédiat.</p>
+      <div class="doctrine" data-i18n="doctrine">Commande directe · Paiement Wave · 0 % commission DIGIYLYFE</div>
+      <div class="actions">
+        <a class="action whatsapp" href="https://wa.me/221786523129?text=Bonjour%20BCHEIKH%2C%20je%20souhaite%20commander." target="_blank" rel="noopener noreferrer">💬 <span data-i18n="whatsapp">WhatsApp</span></a>
+        <a class="action" href="tel:+221771742749">📞 <span data-i18n="call">Appeler</span></a>
+        <a class="action" href="https://bcheikh.digiylyfe.com/">🛍️ <span data-i18n="site">Ouvrir la boutique</span></a>
+        <button class="action" type="button" id="contactBtn">👤 <span data-i18n="contact">Ajouter aux contacts</span></button>
+        <button class="action primary wide" type="button" id="shareBtn">📲 <span data-i18n="share">Partager cette carte</span></button>
+      </div>
+      <div class="phonebox">
+        <span data-i18n="phoneHelp">Si l’appel ne s’ouvre pas :</span>
+        <strong>77 174 27 49</strong>
+        <button type="button" id="copyPhone" data-i18n="copy">📋 Copier le numéro</button>
+      </div>
+      <div class="status" id="status" role="status"></div>
+      <p class="note" data-i18n="note">La carte reste vivante : visuel officiel pour montrer, lien vivant pour agir.</p>
+    </div>
+  </section>
+</main>
+<script>
+(function(){
+'use strict';
+var TEXT={
+fr:{back:'BCHEIKH',eyebrow:'CARTE DE VISITE INTERACTIVE',lead:'Saly–Mbour · tee-shirts · prix clairs · contact direct. Commande WhatsApp et appel immédiat.',doctrine:'Commande directe · Paiement Wave · 0 % commission DIGIYLYFE',whatsapp:'WhatsApp',call:'Appeler',site:'Ouvrir la boutique',contact:'Ajouter aux contacts',share:'Partager cette carte',phoneHelp:'Si l’appel ne s’ouvre pas :',copy:'📋 Copier le numéro',copiedPhone:'✅ Numéro copié',copiedLink:'Lien de la carte copié.',note:'La carte reste vivante : visuel officiel pour montrer, lien vivant pour agir.'},
+en:{back:'BCHEIKH',eyebrow:'INTERACTIVE BUSINESS CARD',lead:'Saly–Mbour · T-shirts · clear prices · direct contact. WhatsApp ordering and direct call.',doctrine:'Direct order · Wave payment · 0% DIGIYLYFE commission',whatsapp:'WhatsApp',call:'Call',site:'Open the shop',contact:'Add to contacts',share:'Share this card',phoneHelp:'If calling does not open:',copy:'📋 Copy number',copiedPhone:'✅ Number copied',copiedLink:'Card link copied.',note:'The card stays alive: official visual to show, living link to act.'},
+es:{back:'BCHEIKH',eyebrow:'TARJETA DE VISITA INTERACTIVA',lead:'Saly–Mbour · camisetas · precios claros · contacto directo. Pedido por WhatsApp y llamada directa.',doctrine:'Pedido directo · Pago Wave · 0 % comisión DIGIYLYFE',whatsapp:'WhatsApp',call:'Llamar',site:'Abrir la tienda',contact:'Añadir a contactos',share:'Compartir esta tarjeta',phoneHelp:'Si la llamada no se abre:',copy:'📋 Copiar número',copiedPhone:'✅ Número copiado',copiedLink:'Enlace de la tarjeta copiado.',note:'La tarjeta sigue viva: visual oficial para mostrar, enlace vivo para actuar.'},
+pt:{back:'BCHEIKH',eyebrow:'CARTÃO DE VISITA INTERATIVO',lead:'Saly–Mbour · camisetas · preços claros · contacto direto. Encomenda por WhatsApp e chamada direta.',doctrine:'Encomenda direta · Pagamento Wave · 0% comissão DIGIYLYFE',whatsapp:'WhatsApp',call:'Ligar',site:'Abrir a loja',contact:'Adicionar aos contactos',share:'Partilhar este cartão',phoneHelp:'Se a chamada não abrir:',copy:'📋 Copiar número',copiedPhone:'✅ Número copiado',copiedLink:'Link do cartão copiado.',note:'O cartão mantém-se vivo: visual oficial para mostrar, link vivo para agir.'},
+it:{back:'BCHEIKH',eyebrow:'BIGLIETTO DA VISITA INTERATTIVO',lead:'Saly–Mbour · magliette · prezzi chiari · contatto diretto. Ordine su WhatsApp e chiamata diretta.',doctrine:'Ordine diretto · Pagamento Wave · 0% commissione DIGIYLYFE',whatsapp:'WhatsApp',call:'Chiama',site:'Apri il negozio',contact:'Aggiungi ai contatti',share:'Condividi questo biglietto',phoneHelp:'Se la chiamata non si apre:',copy:'📋 Copia numero',copiedPhone:'✅ Numero copiato',copiedLink:'Link del biglietto copiato.',note:'Il biglietto resta vivo: visuale ufficiale per mostrare, link vivo per agire.'},
+de:{back:'BCHEIKH',eyebrow:'INTERAKTIVE VISITENKARTE',lead:'Saly–Mbour · T-Shirts · klare Preise · direkter Kontakt. Bestellung per WhatsApp und direkter Anruf.',doctrine:'Direktbestellung · Wave-Zahlung · 0 % DIGIYLYFE-Provision',whatsapp:'WhatsApp',call:'Anrufen',site:'Shop öffnen',contact:'Zu Kontakten hinzufügen',share:'Diese Karte teilen',phoneHelp:'Wenn der Anruf nicht startet:',copy:'📋 Nummer kopieren',copiedPhone:'✅ Nummer kopiert',copiedLink:'Kartenlink kopiert.',note:'Die Karte bleibt lebendig: offizielles Motiv zum Zeigen, lebendiger Link zum Handeln.'},
+nl:{back:'BCHEIKH',eyebrow:'INTERACTIEF VISITEKAARTJE',lead:'Saly–Mbour · T-shirts · duidelijke prijzen · direct contact. Bestellen via WhatsApp en direct bellen.',doctrine:'Direct bestellen · Wave-betaling · 0% DIGIYLYFE-commissie',whatsapp:'WhatsApp',call:'Bellen',site:'Winkel openen',contact:'Toevoegen aan contacten',share:'Deze kaart delen',phoneHelp:'Als bellen niet opent:',copy:'📋 Nummer kopiëren',copiedPhone:'✅ Nummer gekopieerd',copiedLink:'Kaartlink gekopieerd.',note:'De kaart blijft levend: officieel beeld om te tonen, levende link om te handelen.'},
+ar:{back:'BCHEIKH',eyebrow:'بطاقة زيارة تفاعلية',lead:'سالي–مبور · قمصان · أسعار واضحة · تواصل مباشر. طلب عبر واتساب واتصال مباشر.',doctrine:'طلب مباشر · دفع Wave · عمولة 0٪ من DIGIYLYFE',whatsapp:'واتساب',call:'اتصال',site:'افتح المتجر',contact:'أضف إلى جهات الاتصال',share:'شارك هذه البطاقة',phoneHelp:'إذا لم يفتح الاتصال:',copy:'📋 انسخ الرقم',copiedPhone:'✅ تم نسخ الرقم',copiedLink:'تم نسخ رابط البطاقة.',note:'تبقى البطاقة حية: صورة رسمية للعرض ورابط حي لاتخاذ الإجراء.'}
+};
+function setLang(lang){if(!TEXT[lang])lang='fr';var t=TEXT[lang];document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(Object.prototype.hasOwnProperty.call(t,k))el.textContent=t[k];});document.querySelectorAll('.lang').forEach(function(btn){btn.classList.toggle('active',btn.getAttribute('data-lang')===lang);});}
+document.querySelectorAll('.lang').forEach(function(btn){btn.addEventListener('click',function(){setLang(btn.getAttribute('data-lang'));});});
+setLang('fr');
+var phone='+221771742749',cardUrl='https://bcheikh.digiylyfe.com/carte/',contactBtn=document.getElementById('contactBtn'),shareBtn=document.getElementById('shareBtn'),copyPhone=document.getElementById('copyPhone'),status=document.getElementById('status');
+function showStatus(msg){status.textContent=msg;status.classList.add('show');setTimeout(function(){status.classList.remove('show');},1700);}
+contactBtn.addEventListener('click',function(){var vcard=['BEGIN:VCARD','VERSION:3.0','FN:BCHEIKH','ORG:BCHEIKH','TEL;TYPE=CELL,VOICE:+221771742749','TEL;TYPE=CELL,VOICE:+221786523129','URL:https://bcheikh.digiylyfe.com/','NOTE:Tee-shirts et caleçons à Saly–Mbour - contact direct via DIGIYLYFE.','END:VCARD'].join('\r\n');var blob=new Blob([vcard],{type:'text/vcard;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='BCHEIKH.vcf';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1000);});
+copyPhone.addEventListener('click',async function(){var lang=document.documentElement.lang||'fr';try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(phone);}else{var ta=document.createElement('textarea');ta.value=phone;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}copyPhone.textContent=(TEXT[lang]||TEXT.fr).copiedPhone;copyPhone.classList.add('done');setTimeout(function(){copyPhone.textContent=(TEXT[lang]||TEXT.fr).copy;copyPhone.classList.remove('done');},1600);}catch(e){}});
+shareBtn.addEventListener('click',async function(){var lang=document.documentElement.lang||'fr';try{if(navigator.share){await navigator.share({title:'BCHEIKH',text:'BCHEIKH · Saly–Mbour · Contact direct',url:cardUrl});return;}if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(cardUrl);showStatus((TEXT[lang]||TEXT.fr).copiedLink);return;}location.href=cardUrl;}catch(error){if(error&&error.name==='AbortError')return;}});
+})();
+</script>
+</body>
+</html>
