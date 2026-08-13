@@ -16,34 +16,3 @@ permissions:
 jobs:
   sign-cards:
     uses: BEAUVILLE/digiylyfe.com/.github/workflows/sign-cards-reusable.yml@23c34b7b20139e62f4d5c20dcce953622f88f198
-
-  connect-living-card:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Connect BCHEIKH storefront to living card
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p=Path('index.html')
-          h=p.read_text(encoding='utf-8')
-          h=h.replace('<div class="card-visual"><img alt="Carte de visite verticale BCHEIKH" data-i18n-alt="altCard" src="carte-visite.webp"/></div>', '<div class="card-visual"><a href="/carte/" aria-label="Ouvrir la carte interactive BCHEIKH"><img alt="Carte de visite verticale BCHEIKH" data-i18n-alt="altCard" src="carte-visite.webp"/></a></div>', 1)
-          h=h.replace('<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>', '<a class="btn btn-primary" data-i18n="openCard" href="/carte/">Ouvrir la carte</a>', 1)
-          h=h.replace('<button class="btn btn-secondary" id="shareCardButton" type="button">Partager la carte</button>', '<button class="btn btn-secondary" id="shareLivingCardButton" type="button">Partager la carte vivante</button>', 1)
-          addon='''\n<script id="bcheikh-living-card-bridge">\n(function(){\n  const button=document.getElementById('shareLivingCardButton');\n  if(!button)return;\n  const labels={fr:'Partager la carte vivante',en:'Share living card',es:'Compartir tarjeta interactiva',pt:'Partilhar cartão interativo',it:'Condividi biglietto interattivo',de:'Interaktive Karte teilen',nl:'Interactieve kaart delen',ar:'شارك البطاقة التفاعلية'};\n  const cardUrl='https://bcheikh.digiylyfe.com/carte/';\n  function lang(){const v=(document.getElementById('languageSelect')?.value||document.documentElement.lang||'fr').slice(0,2).toLowerCase();return labels[v]?v:'fr'}\n  function sync(){button.textContent=labels[lang()]}\n  sync();\n  document.getElementById('languageSelect')?.addEventListener('change',()=>setTimeout(sync,0));\n  button.addEventListener('click',async()=>{try{if(navigator.share){await navigator.share({title:'BCHEIKH · Saly–Mbour',text:'BCHEIKH · Contact direct',url:cardUrl});return;}if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(cardUrl);return;}location.href=cardUrl;}catch(error){if(error&&error.name==='AbortError')return;}});\n})();\n</script>\n'''
-          if 'id="bcheikh-living-card-bridge"' not in h:
-              h=h.replace('</body>', addon+'\n</body>', 1)
-          if 'href="/carte/"' not in h or 'shareLivingCardButton' not in h:
-              raise SystemExit('living card bridge verification failed')
-          p.write_text(h,encoding='utf-8')
-          PY
-          git config user.name "DIGIY LYFE"
-          git config user.email "baptistejb24@gmail.com"
-          git add index.html
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Connect BCHEIKH storefront to living card"
-          git pull --rebase origin main
-          git push origin HEAD:main
