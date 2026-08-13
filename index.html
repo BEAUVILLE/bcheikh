@@ -583,13 +583,13 @@
 <section class="wrap section" id="carte-visite">
 <h2 class="section-title" data-i18n="cardTitle">Carte de visite 9/16</h2>
 <div class="business-card">
-<div class="card-visual"><img alt="Carte de visite verticale BCHEIKH" data-i18n-alt="altCard" src="carte-visite.webp"/></div>
+<div class="card-visual"><a href="/carte/" aria-label="Ouvrir la carte interactive BCHEIKH"><img alt="Carte de visite verticale BCHEIKH" data-i18n-alt="altCard" src="carte-visite.webp"/></a></div>
 <div class="card-copy">
 <p data-i18n="cardCopy1">La carte de visite BCHEIKH peut être partagée sur téléphone, WhatsApp, Statut ou TikTok.</p>
 <p data-i18n="cardCopy2">Elle reprend les prix clés, la zone Saly–Mbour, les contacts directs et l’identité visuelle de la marque.</p>
 <div class="actions">
-<a class="btn btn-primary" data-i18n="openCard" href="carte-visite.webp" rel="noopener" target="_blank">Ouvrir la carte</a>
-<button class="btn btn-secondary" id="shareCardButton" type="button">Partager la carte</button>
+<a class="btn btn-primary" data-i18n="openCard" href="/carte/">Ouvrir la carte</a>
+<button class="btn btn-secondary" id="shareLivingCardButton" type="button">Partager la carte vivante</button>
 <a class="btn btn-secondary" data-i18n="download" download="BCHEIKH-carte-visite.webp" href="carte-visite.webp">Télécharger</a>
 </div>
 <ul class="card-points">
@@ -798,6 +798,21 @@
 
     applyLanguage(detectLanguage(),false);
 </script>
+
+<script id="bcheikh-living-card-bridge">
+(function(){
+  const button=document.getElementById('shareLivingCardButton');
+  if(!button)return;
+  const labels={fr:'Partager la carte vivante',en:'Share living card',es:'Compartir tarjeta interactiva',pt:'Partilhar cartão interativo',it:'Condividi biglietto interattivo',de:'Interaktive Karte teilen',nl:'Interactieve kaart delen',ar:'شارك البطاقة التفاعلية'};
+  const cardUrl='https://bcheikh.digiylyfe.com/carte/';
+  function lang(){const v=(document.getElementById('languageSelect')?.value||document.documentElement.lang||'fr').slice(0,2).toLowerCase();return labels[v]?v:'fr'}
+  function sync(){button.textContent=labels[lang()]}
+  sync();
+  document.getElementById('languageSelect')?.addEventListener('change',()=>setTimeout(sync,0));
+  button.addEventListener('click',async()=>{try{if(navigator.share){await navigator.share({title:'BCHEIKH · Saly–Mbour',text:'BCHEIKH · Contact direct',url:cardUrl});return;}if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(cardUrl);return;}location.href=cardUrl;}catch(error){if(error&&error.name==='AbortError')return;}});
+})();
+</script>
+
 </body>
 </html>
 
