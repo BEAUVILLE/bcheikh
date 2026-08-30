@@ -1,0 +1,91 @@
+name: Optimiser medias Bcheikh
+
+on:
+  push:
+    paths:
+      - '.github/workflows/optimiser-medias-bcheikh.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  optimiser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer convertisseurs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webp libavif-bin
+
+      - name: Convertir les photos produits
+        run: |
+          set -euo pipefail
+          for file in assets/produits/*.jpg; do
+            base="${file%.jpg}"
+            cwebp -quiet -q 82 "$file" -o "${base}.webp"
+            avifenc --min 28 --max 35 --speed 6 "$file" "${base}.avif" >/dev/null
+          done
+
+      - name: Basculer Bcheikh vers les formats legers
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          # La video de 13,5 Mo ne demande plus de metadata au premier affichage.
+          s = s.replace('preload="metadata"', 'preload="none"')
+
+          # Les deux photos produit gardent le JPG en fallback, mais servent d'abord
+          # le format reellement le plus leger entre WebP et AVIF.
+          for jpg in sorted(Path('assets/produits').glob('*.jpg')):
+              webp = jpg.with_suffix('.webp')
+              avif = jpg.with_suffix('.avif')
+              if not webp.exists() or not avif.exists():
+                  continue
+              choices = sorted([(webp.stat().st_size, webp, 'image/webp'),
+                                (avif.stat().st_size, avif, 'image/avif')], key=lambda x:x[0])
+              src_pat = re.escape(jpg.as_posix()) + r'(?:\?[^"\']*)?'
+              pat = re.compile(r'<img\b(?=[^>]*\bsrc=["\']' + src_pat + r'["\'])[^>]*>', re.I)
+              def repl(m):
+                  tag = m.group(0)
+                  if '<picture' in s[max(0,m.start()-120):m.start()]:
+                      return tag
+                  sources = ''.join(f'<source type="{mime}" srcset="{path.as_posix()}">' for _,path,mime in choices)
+                  return f'<picture class="digiy-product-picture">{sources}{tag}</picture>'
+              s = pat.sub(repl, s)
+
+          marker = '/* DIGIY media opt Bcheikh 20260830 */'
+          if marker not in s:
+              css = '''\n<style id="digiy-media-opt-bcheikh">\n/* DIGIY media opt Bcheikh 20260830 */\n.real-product-photo picture.digiy-product-picture{display:block;width:100%;height:100%}\n.real-product-photo picture.digiy-product-picture>img{display:block;width:100%;height:100%;object-fit:contain}\n.real-product-photo picture.digiy-product-picture>img.product-rotated{position:absolute}\n</style>\n'''
+              s = s.replace('</head>', css + '</head>', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Controler les poids
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          for jpg in sorted(Path('assets/produits').glob('*.jpg')):
+              webp=jpg.with_suffix('.webp'); avif=jpg.with_suffix('.avif')
+              print(f'{jpg}: original={jpg.stat().st_size} webp={webp.stat().st_size} avif={avif.stat().st_size}')
+          PY
+
+      - name: Publier optimisation
+        run: |
+          set -euo pipefail
+          git config user.name 'DIGIYLYFE Media Bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add index.html assets/produits
+          if git diff --cached --quiet; then
+            echo 'Aucun changement a publier.'
+            exit 0
+          fi
+          git commit -m 'Media: optimiser Bcheikh en AVIF et WebP'
+          git push
