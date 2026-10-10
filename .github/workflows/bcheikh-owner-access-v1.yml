@@ -1,0 +1,32 @@
+name: BCHEIKH — accès propriétaire sur vitrine et carte
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'carte/index.html'
+      - 'README.md'
+      - 'tests/bcheikh-owner-access-v1.test.cjs'
+      - '.github/workflows/bcheikh-owner-access-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'carte/index.html'
+      - 'README.md'
+      - 'tests/bcheikh-owner-access-v1.test.cjs'
+      - '.github/workflows/bcheikh-owner-access-v1.yml'
+permissions:
+  contents: read
+jobs:
+  owner-entry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérification syntaxique
+        run: node --check tests/bcheikh-owner-access-v1.test.cjs
+      - name: Navigation propriétaire, cartes, 8 langues, aucun secret
+        run: node --test tests/bcheikh-owner-access-v1.test.cjs

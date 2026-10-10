@@ -81,3 +81,15 @@ Les liens WhatsApp utilisent le format international sans espace ni signe `+`.
 ---
 
 BCHEIKH — Vente directe, prix clairs, commande simple.
+
+## 🔐 Accès propriétaire — vitrine et carte vivante
+
+Le bouton **Accès propriétaire**, présent sur `index.html` et `carte/index.html`, renvoie au portail existant de DIGIYLYFE :
+
+`https://digiylyfe.com/acces-proprietaire.html?fiche=bcheikh`
+
+**État au 10 octobre 2026 : lien public installé, activation personnelle non encore établie.** La fiche `bcheikh` n'est pas enregistrée dans `public.professionals` avec un email propriétaire autorisé, ni dans `digiy_commerce_sites`. Le simple bouton ne crée ni session, ni fiche CORE, ni droit d'édition et ne donne accès à aucune commande ou donnée personnelle.
+
+Pour livrer la gestion au véritable professionnel : vérifier humainement son email, confirmer le compte Supabase Auth, enregistrer une association propriétaire sûre via le processus OPS, contrôler le magic link et un refus d'accès depuis un autre compte. Ne jamais utiliser le numéro WhatsApp ou le nom comme preuve de propriété, ni mettre un lien MASTER/administrateur dans la vitrine.
+
+Ce correctif conserve les commandes WhatsApp, les paiements Wave directs, la boutique, les prix, les traductions WORLD8 et la PWA.
