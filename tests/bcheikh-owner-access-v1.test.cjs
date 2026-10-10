@@ -38,7 +38,7 @@ test('Eight-language owner labels remain available on both pages',()=>{
  const t=JSON.parse(json);
  for(const lang of langs){
   assert.ok(t[lang].ownerAccess?.length>5,'home '+lang);
-  const rx=new RegExp(lang+':\\{back:\\'BCHEIKH\\',ownerAccess:\\'');
+  const rx=new RegExp(lang+":\\{back:'BCHEIKH',ownerAccess:'");
   assert.match(card,rx,'card '+lang);
  }
 });
