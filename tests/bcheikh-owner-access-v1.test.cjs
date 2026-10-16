@@ -47,6 +47,12 @@ test('scripts parse; visitor links and PWA unchanged',()=>{
  assert.ok(homeJs && homeJs.includes('ownerAccess'));
  const scripts=home.match(/<script\b[^>]*>([\s\S]*?)<\/script>/g)||[];
  for(const chunk of scripts){
+  // JSON-LD is structured data, not executable JavaScript.
+  if(/^<script\b[^>]*\btype=["']application\/ld\+json["']/i.test(chunk)) {
+   const code=chunk.replace(/^<script\b[^>]*>/,'').replace(/<\/script>$/,'');
+   JSON.parse(code);
+   continue;
+  }
   const code=chunk.replace(/^<script\b[^>]*>/,'').replace(/<\/script>$/,'');
   if(code.trim())new vm.Script(code);
  }
