@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bcheikh.digiylyfe.com/sitemap.xml
