@@ -1,0 +1,17 @@
+name: BCHEIKH — contrôle des 10 langues
+on:
+  pull_request:
+    paths:
+      - index.html
+      - carte/index.html
+      - tests/test_10_lang.py
+      - .github/workflows/bcheikh-ten-languages.yml
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Vérifier les traductions et les portes de contact direct
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
